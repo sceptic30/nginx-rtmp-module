@@ -1179,6 +1179,20 @@ ngx_rtmp_live_on_text_data(ngx_rtmp_session_t *s, ngx_rtmp_header_t *h,
             sizeof(out_elts) / sizeof(out_elts[0]));
 }
 
+static ngx_int_t
+ngx_rtmp_live_on_fi(ngx_rtmp_session_t *s, ngx_rtmp_header_t *h,
+                           ngx_chain_t *in)
+{
+    static ngx_rtmp_amf_elt_t   out_elts[] = {
+
+            { NGX_RTMP_AMF_STRING,
+                    ngx_null_string,
+                    "onFi", 0 }
+    };
+
+    return ngx_rtmp_live_data(s, h, in, out_elts,
+                              sizeof(out_elts) / sizeof(out_elts[0]));
+}
 
 static ngx_int_t
 ngx_rtmp_live_publish(ngx_rtmp_session_t *s, ngx_rtmp_publish_t *v)
@@ -1300,6 +1314,10 @@ ngx_rtmp_live_postconfiguration(ngx_conf_t *cf)
     ch = ngx_array_push(&cmcf->amf);
     ngx_str_set(&ch->name, "onCuePoint");
     ch->handler = ngx_rtmp_live_on_cue_point;
+
+    ch = ngx_array_push(&cmcf->amf);
+    ngx_str_set(&ch->name, "onFi");
+    ch->handler = ngx_rtmp_live_on_fi;
 
     return NGX_OK;
 }
