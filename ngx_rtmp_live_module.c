@@ -1058,7 +1058,6 @@ ngx_rtmp_live_data(ngx_rtmp_session_t *s, ngx_rtmp_header_t *h,
     u_char                         *msg_type;
 
     msg_type = (u_char *)out_elts[0].data;
-
     lacf = ngx_rtmp_get_module_app_conf(s, ngx_rtmp_live_module);
     if (lacf == NULL) {
         return NGX_ERROR;
